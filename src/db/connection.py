@@ -3,7 +3,7 @@ import os
 import streamlit as st
 from types import TracebackType
 from typing import Optional, Type, Literal
-from utils.config import DB_NAME as db
+from src.utils.config import DB_NAME as db
 
 DB_NAME = db
 

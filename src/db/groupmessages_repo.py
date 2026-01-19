@@ -1,9 +1,9 @@
 import sqlite3
 from typing import Iterable
 
-from db.repositories import repository
-from db.connection import connection
-from domain.messages import GroupMessage
+from src.db.repositories import repository
+from src.db.connection import connection
+from src.domain.messages import GroupMessage
 
 
 class groupmessagerepo(repository):

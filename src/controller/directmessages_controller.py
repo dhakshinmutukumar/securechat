@@ -1,6 +1,6 @@
 from typing import Iterable
-from db.directmessages_repo import directmessagesrepo
-from domain.messages import DirectMessage
+from src.db.directmessages_repo import directmessagesrepo
+from src.domain.messages import DirectMessage
 
 _repo = directmessagesrepo()
 

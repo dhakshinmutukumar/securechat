@@ -1,4 +1,4 @@
-from db.relations_repo import relationsrepo
+from src.db.relations_repo import relationsrepo
 
 _repo = relationsrepo()
 

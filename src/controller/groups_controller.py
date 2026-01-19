@@ -1,4 +1,4 @@
-from db.groups_repo import groupsrepo
+from src.db.groups_repo import groupsrepo
 
 _repo = groupsrepo()
 

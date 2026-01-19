@@ -1,6 +1,6 @@
 from typing import Iterable
-from db.groupmembers_repo import groupmembersrepo
-from domain.group import Group
+from src.db.groupmembers_repo import groupmembersrepo
+from src.domain.group import Group
 
 _repo = groupmembersrepo()
 

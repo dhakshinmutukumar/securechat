@@ -2,8 +2,8 @@ import hashlib
 import sqlite3
 
 import streamlit as st
-from db.repositories import repository
-from db.connection import connection
+from src.db.repositories import repository
+from src.db.connection import connection
 
 
 class usersrepo(repository):

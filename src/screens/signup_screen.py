@@ -1,8 +1,8 @@
 import time
 from typing import ContextManager, Any
 import streamlit as st
-from controller.users_controller import CreateUser, UserExists, EmailExists
-from utils.validtions_utils import is_valid_email, sendotp
+from src.controller.users_controller import CreateUser, UserExists, EmailExists
+from src.utils.validtions_utils import is_valid_email, sendotp
 
 
 create_user = CreateUser()

@@ -2,10 +2,10 @@ import sqlite3
 from typing import Iterable, Optional
 
 import streamlit as st
-from db.repositories import repository, association, group
-from db.groups_repo import groupsrepo
-from db.connection import connection
-from domain.group import Group
+from src.db.repositories import repository, association, group
+from src.db.groups_repo import groupsrepo
+from src.db.connection import connection
+from src.domain.group import Group
 
 repo: repository = groupsrepo()
 

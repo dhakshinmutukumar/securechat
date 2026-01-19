@@ -1,6 +1,6 @@
 import streamlit as st
-from utils.dialogs_utils import confirmdelete
-from controller.relations_controller import AddFriend
+from src.utils.dialogs_utils import confirmdelete
+from src.controller.relations_controller import AddFriend
 
 add_friend = AddFriend()
 

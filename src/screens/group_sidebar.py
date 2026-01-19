@@ -1,8 +1,8 @@
 import time
 import streamlit as st
-from utils.dialogs_utils import confirmleft, addmembers, listmembers
-from controller.users_controller import ListUsers
-from controller.groupmembers_controller import AddGroupMembers, ListUserGroups
+from src.utils.dialogs_utils import confirmleft, addmembers, listmembers
+from src.controller.users_controller import ListUsers
+from src.controller.groupmembers_controller import AddGroupMembers, ListUserGroups
 
 list_users = ListUsers()
 add_group_members = AddGroupMembers()

@@ -1,6 +1,6 @@
 from typing import Iterable
-from db.groupmessages_repo import groupmessagerepo
-from domain.messages import GroupMessage
+from src.db.groupmessages_repo import groupmessagerepo
+from src.domain.messages import GroupMessage
 
 _repo = groupmessagerepo()
 

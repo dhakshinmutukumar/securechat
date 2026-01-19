@@ -1,10 +1,10 @@
 import streamlit as st
 
-from screens.chat_right_panel import chatscreenright
-from screens.direct_sidebar import directside
-from screens.group_sidebar import groups
+from src.screens.chat_right_panel import chatscreenright
+from src.screens.direct_sidebar import directside
+from src.screens.group_sidebar import groups
 
-from controller.relations_controller import RemainingUsers
+from src.controller.relations_controller import RemainingUsers
 
 
 def chatscreen() -> None:

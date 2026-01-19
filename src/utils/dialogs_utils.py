@@ -11,8 +11,8 @@ All dialogs interact with repository-layer abstractions and update
 Streamlit session state accordingly.
 """
 
-from controller.relations_controller import RemoveFriend
-from controller.groupmembers_controller import (
+from src.controller.relations_controller import RemoveFriend
+from src.controller.groupmembers_controller import (
     RemoveFromGroup,
     AddGroupMembers,
     ListGroupMembers,

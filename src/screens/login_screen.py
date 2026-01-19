@@ -1,6 +1,6 @@
 import streamlit as st
-from utils.validtions_utils import is_valid_email
-from controller.users_controller import UserExists, ValidateUser
+from src.utils.validtions_utils import is_valid_email
+from src.controller.users_controller import UserExists, ValidateUser
 
 
 def login() -> None:

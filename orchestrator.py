@@ -10,9 +10,9 @@ from typing import Any
 
 import streamlit as st
 
-from screens import login_screen
-from screens import signup_screen
-from screens import chat_screen
+from src.screens import login_screen
+from src.screens import signup_screen
+from src.screens import chat_screen
 
 # ---------------------------------------------------------------------
 # Session State Defaults

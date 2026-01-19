@@ -1,4 +1,4 @@
-from db.users_repo import usersrepo
+from src.db.users_repo import usersrepo
 
 _repo = usersrepo()
 

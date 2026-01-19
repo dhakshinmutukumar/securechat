@@ -1,7 +1,7 @@
 import streamlit as st
-from controller.groupmessages_controller import SendGroupMessage, FetchGroupMessages
-from controller.directmessages_controller import SendDirectMessage, FetchDirectMessages
-from domain.messages import DirectMessage, GroupMessage
+from src.controller.groupmessages_controller import SendGroupMessage, FetchGroupMessages
+from src.controller.directmessages_controller import SendDirectMessage, FetchDirectMessages
+from src.domain.messages import DirectMessage, GroupMessage
 
 send_direct = SendDirectMessage()
 fetch_direct = FetchDirectMessages()

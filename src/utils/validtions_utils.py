@@ -15,8 +15,8 @@ import time
 import os
 
 from email.message import EmailMessage
-from utils.config import SENDER_EMAIL as senderemail
-from utils.config import SENDER_PASSWORD as password
+from src.utils.config import SENDER_EMAIL as senderemail
+from src.utils.config import SENDER_PASSWORD as password
 
 import streamlit as st
 
