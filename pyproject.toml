@@ -20,8 +20,11 @@ authors = [
     { name = "Muthukumar M D" }
 ]
 
+# Runtime dependencies (THIS is what Streamlit Cloud installs)
 dependencies = [
-    "streamlit>=1.30"
+    "streamlit>=1.30",
+    "tomli>=2.0.1",   # <-- FIX: required by utils/config.py
+    "bcrypt"
 ]
 
 
@@ -30,7 +33,9 @@ dependencies = [
 # ---------------------------------------------------------------------
 [project.optional-dependencies]
 dev = [
-    "mypy"
+    "mypy",
+    "pylint",
+    "black"
 ]
 
 
@@ -47,17 +52,20 @@ strict = false
 # Application configuration
 # ---------------------------------------------------------------------
 [tool.chatapp]
-db_name = "db/database.db"
+db_name = "src/db/database.db"
 
 sender_email = "muthukumarmd@student.tce.edu"
 sender_password = "vyeijjquvmookdmg"
 
 
+# ---------------------------------------------------------------------
+# Poetry configuration (dependency management only)
+# ---------------------------------------------------------------------
 [tool.poetry]
 name = "chatapp"
 version = "0.1.0"
 description = "Secure Streamlit chat application"
 authors = ["Muthukumar"]
 
+# IMPORTANT: Streamlit app, not a package
 package-mode = false
-
