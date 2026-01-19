@@ -51,3 +51,13 @@ db_name = "db/database.db"
 
 sender_email = "muthukumarmd@student.tce.edu"
 sender_password = "vyeijjquvmookdmg"
+
+
+[tool.poetry]
+name = "chatapp"
+version = "0.1.0"
+description = "Secure Streamlit chat application"
+authors = ["Muthukumar"]
+
+package-mode = false
+
