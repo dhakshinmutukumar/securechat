@@ -8,10 +8,13 @@ class relationsrepo(repository, association):
     def add(self, receiver: str) -> None:
         supabase = connection.get()
 
-        supabase.table("relations").insert([
-            {"sender": st.session_state.user, "receiver": receiver},
-            {"sender": receiver, "receiver": st.session_state.user},
-        ]).execute()
+        supabase.table("relations").upsert(
+            [
+                {"sender": st.session_state.user, "receiver": receiver},
+                {"sender": receiver, "receiver": st.session_state.user},
+            ],
+            on_conflict="sender,receiver",
+        ).execute()
 
     def getall(self) -> list[str]:
         supabase = connection.get()
