@@ -1,6 +1,10 @@
+from typing import Iterable
 import streamlit as st
 from src.controller.groupmessages_controller import SendGroupMessage, FetchGroupMessages
-from src.controller.directmessages_controller import SendDirectMessage, FetchDirectMessages
+from src.controller.directmessages_controller import (
+    SendDirectMessage,
+    FetchDirectMessages,
+)
 from src.domain.messages import DirectMessage, GroupMessage
 
 send_direct = SendDirectMessage()
@@ -14,7 +18,7 @@ def chatscreenright(current_user: str) -> None:
 
     chat_user = st.session_state.chat_with
     scene = st.session_state.chat
-    messages: list[DirectMessage] | list[GroupMessage]
+    messages: Iterable[DirectMessage] | Iterable[GroupMessage]
 
     if scene == "Direct":
         st.write(f"### Chat with **{chat_user}**")

@@ -1,30 +1,31 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 
 class repository(ABC):
 
     @abstractmethod
-    def add(self):
+    def add(self, *args: Any, **kwargs: Any) -> Any:
         pass
 
     @abstractmethod
-    def getall(self):
+    def getall(self, *args: Any, **kwargs: Any) -> Any:
         pass
 
 
 class group(ABC):
 
     @abstractmethod
-    def listbyid(self):
+    def listbyid(self, *args: Any, **kwargs: Any) -> Any:
         pass
 
 
 class association(ABC):
 
     @abstractmethod
-    def deletebyid(self):
+    def deletebyid(self, *args: Any, **kwargs: Any) -> Any:
         pass
 
     @abstractmethod
-    def remainingusers(self):
+    def remainingusers(self, *args: Any, **kwargs: Any) -> Any:
         pass

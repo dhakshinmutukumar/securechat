@@ -29,5 +29,5 @@ class ListGroupMembers:
 
 
 class RemainingGroupUsers:
-    def __call__(self, grpid: int) -> tuple[list[str], list[str]]:
+    def __call__(self, grpid: int) -> list[str]:
         return _repo.remainingusers(grpid)

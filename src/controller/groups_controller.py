@@ -4,7 +4,7 @@ _repo = groupsrepo()
 
 
 class CreateGroup:
-    def __call__(self, name: str) -> int:
+    def __call__(self, name: str) -> int | None:
         return _repo.add(name)
 
 
