@@ -1,6 +1,7 @@
 import streamlit as st
 from src.db.repositories import repository, association
 from src.db.connection import connection
+from typing import cast, Any
 
 
 class relationsrepo(repository, association):
@@ -31,25 +32,35 @@ class relationsrepo(repository, association):
     def deletebyid(self, user: str) -> None:
         supabase = connection.get()
 
-        supabase.table("relations").delete().match({
-            "sender": st.session_state.user,
-            "receiver": user,
-        }).execute()
+        supabase.table("relations").delete().match(
+            {
+                "sender": st.session_state.user,
+                "receiver": user,
+            }
+        ).execute()
 
     def remainingusers(self) -> tuple[list[str], list[str]]:
         supabase = connection.get()
 
-        users = supabase.table("users").select("username").execute().data
+        response = supabase.table("users").select("username").execute()
+        raw_data = response.data or []
+
+        users = cast(list[dict[str, Any]], raw_data)
+
         friends = set(self.getall())
 
-        friend_list, nonfriend_list = [], []
+        friend_list: list[str] = []
+        nonfriend_list: list[str] = []
 
-        for u in users:
-            if u["username"] == st.session_state.user:
+        for row in users:
+            username = row["username"]
+
+            if username == st.session_state.user:
                 continue
-            if u["username"] in friends:
-                friend_list.append(u["username"])
+
+            if username in friends:
+                friend_list.append(username)
             else:
-                nonfriend_list.append(u["username"])
+                nonfriend_list.append(username)
 
         return friend_list, nonfriend_list

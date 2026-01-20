@@ -9,11 +9,13 @@ class directmessagesrepo(repository):
     def add(self, sender: str, receiver: str, message: str) -> None:
         supabase = connection.get()
 
-        supabase.table("messages").insert({
-            "sender": sender,
-            "receiver": receiver,
-            "message": message,
-        }).execute()
+        supabase.table("messages").insert(
+            {
+                "sender": sender,
+                "receiver": receiver,
+                "message": message,
+            }
+        ).execute()
 
     def getall(self, user1: str, user2: str) -> Iterable[DirectMessage]:
         supabase = connection.get()

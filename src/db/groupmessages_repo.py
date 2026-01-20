@@ -9,11 +9,13 @@ class groupmessagerepo(repository):
     def add(self, sender: str, grpid: int, msg: str) -> None:
         supabase = connection.get()
 
-        supabase.table("grpmessages").insert({
-            "sender": sender,
-            "grpid": grpid,
-            "message": msg,
-        }).execute()
+        supabase.table("grpmessages").insert(
+            {
+                "sender": sender,
+                "grpid": grpid,
+                "message": msg,
+            }
+        ).execute()
 
     def getall(self, groupid: int) -> Iterable[GroupMessage]:
         supabase = connection.get()

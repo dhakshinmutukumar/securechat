@@ -1,5 +1,6 @@
 from src.db.repositories import repository
 from src.db.connection import connection
+from typing import cast, Any
 
 
 class groupsrepo(repository):
@@ -7,11 +8,22 @@ class groupsrepo(repository):
     def add(self, name: str) -> int | None:
         supabase = connection.get()
 
-        response = supabase.table("groups").insert({
-            "name": name,
-        }).execute()
+        response = (
+            supabase.table("groups")
+            .insert(
+                {
+                    "name": name,
+                }
+            )
+            .execute()
+        )
 
-        return response.data[0]["grp_id"]
+        data = cast(list[dict[str, Any]], response.data or [])
+
+        if not data:
+            return None
+
+        return int(data[0]["grp_id"])
 
     def getall(self, grpid: list[int]) -> list[str]:
         if not grpid:
@@ -20,10 +32,7 @@ class groupsrepo(repository):
         supabase = connection.get()
 
         response = (
-            supabase.table("groups")
-            .select("name")
-            .in_("grp_id", grpid)
-            .execute()
+            supabase.table("groups").select("name").in_("grp_id", grpid).execute()
         )
 
         return [row["name"] for row in response.data]

@@ -14,11 +14,13 @@ class usersrepo(repository):
             bcrypt.gensalt(),
         ).decode()
 
-        supabase.table("users").insert({
-            "username": username,
-            "password_hash": pwd_hash,
-            "email": email,
-        }).execute()
+        supabase.table("users").insert(
+            {
+                "username": username,
+                "password_hash": pwd_hash,
+                "email": email,
+            }
+        ).execute()
 
     def getall(self) -> list[str]:
         supabase = connection.get()
