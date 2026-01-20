@@ -25,7 +25,8 @@ dependencies = [
     "streamlit>=1.30",
     "tomli>=2.0.1",   # <-- FIX: required by utils/config.py
     "bcrypt",
-    "psycopg2-binary"
+    "psycopg2-binary",
+    "supabase"
 ]
 
 
