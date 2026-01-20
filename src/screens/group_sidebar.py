@@ -47,7 +47,7 @@ def groups() -> None:
                     else:
                         options.append(st.session_state.user)
                         add_group_members(members=options, name=name)
-                        st.success("Group created!")
+                        st.success(f"Group created!")
                         time.sleep(2)
                         st.session_state.click = 0
                         st.rerun()
