@@ -101,6 +101,7 @@ def groups() -> None:
                             f"{grp.name}",
                             use_container_width=True,
                             icon=":material/groups:",
+                            key=f"{grp.id}",
                         ):
                             st.session_state.chat_with = grp.name
                             st.session_state.grpid = grp.id
