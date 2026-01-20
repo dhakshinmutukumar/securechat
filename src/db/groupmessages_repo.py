@@ -1,6 +1,4 @@
-import sqlite3
 from typing import Iterable
-
 from src.db.repositories import repository
 from src.db.connection import connection
 from src.domain.messages import GroupMessage
@@ -9,24 +7,28 @@ from src.domain.messages import GroupMessage
 class groupmessagerepo(repository):
 
     def add(self, sender: str, grpid: int, msg: str) -> None:
-        with connection() as conn:
-            c: sqlite3.Cursor = conn.cursor()
-            c.execute(
-                "INSERT INTO grpmessages (grpid, sender, message) VALUES (?, ?, ?)",
-                (grpid, sender, msg),
-            )
+        supabase = connection.get()
+
+        supabase.table("grpmessages").insert({
+            "sender": sender,
+            "grpid": grpid,
+            "message": msg,
+        }).execute()
 
     def getall(self, groupid: int) -> Iterable[GroupMessage]:
-        with connection() as conn:
-            c: sqlite3.Cursor = conn.cursor()
-            c.execute(
-                "SELECT sender, message FROM grpmessages WHERE grpid = ?",
-                (groupid,),
-            )
-            for sender, message in c.fetchall():
+        supabase = connection.get()
 
-                yield GroupMessage(
-                    sender=sender,
-                    group_id=groupid,
-                    content=message,
-                )
+        response = (
+            supabase.table("grpmessages")
+            .select("sender, message")
+            .eq("grpid", groupid)
+            .order("created_at")
+            .execute()
+        )
+
+        for row in response.data:
+            yield GroupMessage(
+                sender=row["sender"],
+                group_id=groupid,
+                content=row["message"],
+            )

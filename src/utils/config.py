@@ -31,13 +31,14 @@ except KeyError as exc:
 
 
 # Public configuration values
-DB_NAME: str = _app_cfg["db_name"]
+SUPABASE_URL: str = _app_cfg["db_url"]
+SUPABASE_KEY: str = _app_cfg["db_key"]
 SENDER_EMAIL: str = _app_cfg["sender_email"]
 SENDER_PASSWORD: str = _app_cfg["sender_password"]
 
 
 # ---- Fail-fast validation (MANDATORY) ----
-if not DB_NAME:
+if not SUPABASE_URL or not SUPABASE_KEY:
     raise RuntimeError("db_name is empty in pyproject.toml")
 
 if not SENDER_EMAIL or not SENDER_PASSWORD:

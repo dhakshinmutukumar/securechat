@@ -1,6 +1,4 @@
-import sqlite3
 from typing import Iterable
-
 from src.db.repositories import repository
 from src.db.connection import connection
 from src.domain.messages import DirectMessage
@@ -9,31 +7,31 @@ from src.domain.messages import DirectMessage
 class directmessagesrepo(repository):
 
     def add(self, sender: str, receiver: str, message: str) -> None:
-        with connection() as conn:
-            c: sqlite3.Cursor = conn.cursor()
-            c.execute(
-                """
-                INSERT INTO Message (sender, receiver, message)
-                VALUES (?, ?, ?)
-                """,
-                (sender, receiver, message),
-            )
+        supabase = connection.get()
+
+        supabase.table("messages").insert({
+            "sender": sender,
+            "receiver": receiver,
+            "message": message,
+        }).execute()
 
     def getall(self, user1: str, user2: str) -> Iterable[DirectMessage]:
-        with connection() as conn:
-            c: sqlite3.Cursor = conn.cursor()
-            c.execute(
-                """
-                SELECT sender, receiver, message
-                FROM Message
-                WHERE
-                    (sender = ? AND receiver = ?)
-                     OR
-                    (sender = ? AND receiver = ?)
-                ORDER BY message_id ASC
-                """,
-                (user1, user2, user2, user1),
-            )
-            for sender, receiver, message in c.fetchall():
+        supabase = connection.get()
 
-                yield DirectMessage(sender=sender, receiver=receiver, content=message)
+        response = (
+            supabase.table("messages")
+            .select("sender, receiver, message")
+            .or_(
+                f"and(sender.eq.{user1},receiver.eq.{user2}),"
+                f"and(sender.eq.{user2},receiver.eq.{user1})"
+            )
+            .order("created_at")
+            .execute()
+        )
+
+        for row in response.data:
+            yield DirectMessage(
+                sender=row["sender"],
+                receiver=row["receiver"],
+                content=row["message"],
+            )

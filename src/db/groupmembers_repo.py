@@ -1,33 +1,26 @@
-import sqlite3
-from typing import Iterable, Optional
-
 import streamlit as st
+from typing import Optional, Iterable
 from src.db.repositories import repository, association, group
 from src.db.groups_repo import groupsrepo
 from src.db.connection import connection
 from src.domain.group import Group
 
-repo: repository = groupsrepo()
+repo = groupsrepo()
 
 
 class groupmembersrepo(repository, association, group):
 
     def remainingusers(self, grpid: int) -> list[str]:
-        with connection() as conn:
-            c: sqlite3.Cursor = conn.cursor()
-            c.execute(
-                """
-                SELECT u.username
-                FROM User u
-                LEFT JOIN GroupMembers gm
-                    ON u.username = gm.user
-                    AND gm.grpid = ?
-                WHERE gm.user IS NULL
-                """,
-                (grpid,),
-            )
-            nonusers: list[str] = [row[0] for row in c.fetchall()]
-            return nonusers
+        supabase = connection.get()
+
+        response = supabase.table("users").select("username").execute()
+        members = self.listbyid(grpid)
+
+        return [
+            u["username"]
+            for u in response.data
+            if u["username"] not in members
+        ]
 
     def add(
         self,
@@ -35,49 +28,45 @@ class groupmembersrepo(repository, association, group):
         name: Optional[str] = None,
         grpid: Optional[int] = None,
     ) -> None:
+        supabase = connection.get()
 
-        with connection() as conn:
-            if grpid is None:
-                grpid = repo.add(name)
+        if grpid is None:
+            grpid = repo.add(name)
 
-            c: sqlite3.Cursor = conn.cursor()
-            rows: list[tuple[int, str]] = [(grpid, member) for member in members]
-            c.executemany(
-                "INSERT INTO groupmembers (grpid, user) VALUES (?, ?)",
-                rows,
-            )
+        supabase.table("groupmembers").insert([
+            {"grpid": grpid, "username": m}
+            for m in members
+        ]).execute()
 
     def getall(self) -> Iterable[Group]:
-        with connection() as conn:
-            c: sqlite3.Cursor = conn.cursor()
-            c.execute(
-                """
-                SELECT g.grp_id, g.name
-                FROM groups g
-                JOIN groupmembers gm
-                    ON g.grp_id = gm.grpid
-                WHERE gm.user = ?
-                """,
-                (st.session_state.user,),
-            )
+        supabase = connection.get()
 
-            for gid, name in c.fetchall():
-                yield Group(id=gid, name=name)
+        response = (
+            supabase.table("groupmembers")
+            .select("grpid, groups(name)")
+            .eq("username", st.session_state.user)
+            .execute()
+        )
+
+        for row in response.data:
+            yield Group(id=row["grpid"], name=row["groups"]["name"])
 
     def deletebyid(self, grpid: int) -> None:
-        with connection() as conn:
-            c: sqlite3.Cursor = conn.cursor()
-            c.execute(
-                "DELETE FROM groupmembers WHERE grpid = ? AND user = ?",
-                (grpid, st.session_state.user),
-            )
+        supabase = connection.get()
+
+        supabase.table("groupmembers").delete().match({
+            "grpid": grpid,
+            "username": st.session_state.user,
+        }).execute()
 
     def listbyid(self, id: int) -> list[str]:
-        with connection() as conn:
-            c: sqlite3.Cursor = conn.cursor()
-            c.execute(
-                "SELECT user FROM groupmembers WHERE grpid = ?",
-                (id,),
-            )
-            members: list[str] = [row[0] for row in c.fetchall()]
-            return members
+        supabase = connection.get()
+
+        response = (
+            supabase.table("groupmembers")
+            .select("username")
+            .eq("grpid", id)
+            .execute()
+        )
+
+        return [row["username"] for row in response.data]
