@@ -112,7 +112,7 @@ def groups() -> None:
                         if st.button(
                             "",
                             icon=":material/delete:",
-                            key=f"{grp.id}",
+                            key=f"{grp.id},{grp.name}",
                             type="tertiary",
                         ):
                             confirmleft(grp.name, grp.id)
