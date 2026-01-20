@@ -1,10 +1,11 @@
 import streamlit as st
 from typing import Optional, Iterable
+from typing import cast, Any
 from src.db.repositories import repository, association, group
 from src.db.groups_repo import groupsrepo
 from src.db.connection import connection
 from src.domain.group import Group
-from typing import cast, Any
+
 
 repo = groupsrepo()
 

@@ -1,7 +1,8 @@
+from typing import cast, Any
 import streamlit as st
 from src.db.repositories import repository, association
 from src.db.connection import connection
-from typing import cast, Any
+
 
 
 class relationsrepo(repository, association):

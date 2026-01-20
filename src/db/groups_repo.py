@@ -1,6 +1,7 @@
+from typing import cast, Any
 from src.db.repositories import repository
 from src.db.connection import connection
-from typing import cast, Any
+
 
 
 class groupsrepo(repository):
